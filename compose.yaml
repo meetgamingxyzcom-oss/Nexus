@@ -1,0 +1,47 @@
+services:
+  duckdns:
+    profiles: ["duckdns"]
+    build:
+      context: .
+      dockerfile: Dockerfile.duckdns
+    restart: unless-stopped
+    environment:
+      DUCKDNS_DOMAIN: ${DUCKDNS_DOMAIN:-}
+      DUCKDNS_TOKEN: ${DUCKDNS_TOKEN:-}
+
+  nexus:
+    build: .
+    restart: unless-stopped
+    init: true
+    environment:
+      NEXUS_PUBLIC_ORIGIN: ${NEXUS_PUBLIC_ORIGIN:?Set NEXUS_PUBLIC_ORIGIN in .env}
+      NEXUS_SETUP_SECRET: ${NEXUS_SETUP_SECRET:?Set NEXUS_SETUP_SECRET in .env}
+      NEXUS_CONTACT_EMAIL: ${NEXUS_CONTACT_EMAIL:-}
+      NEXUS_DATA_DIR: /data
+      NEXUS_BRAIN_DIR: /data/brain
+    volumes:
+      - nexus_data:/data
+      - nexus_workspaces:/workspaces
+    expose:
+      - "8765"
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      NEXUS_DOMAIN: ${NEXUS_DOMAIN:?Set NEXUS_DOMAIN in .env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - nexus
+
+volumes:
+  nexus_data:
+  nexus_workspaces:
+  caddy_data:
+  caddy_config:

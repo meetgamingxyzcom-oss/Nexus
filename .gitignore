@@ -1,0 +1,50 @@
+.env
+data/
+generated_media/
+workspaces/
+*.log
+brain_data/
+model/checkpoints/*.npz
+model/checkpoints/*.tmp
+model/checkpoints/*.lock
+model/training_data/
+__pycache__/
+*.py[cod]
+
+# Environment files and secrets
+.env.*
+!.env.example
+.env.txt
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# Local state and personal paths
+gui_recent.json
+
+# AI model weights
+*.gguf
+*.ggml
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+
+# Local model and training directories
+model/checkpoints/
+model/training_data/
+models/
+ollama_models/
+
+# Python environments
+.venv/
+venv/
+env/
+
+# Generated executables
+*.exe
+*.dll
+*.o
+*.obj

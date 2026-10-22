@@ -1,0 +1,4 @@
+{$NEXUS_DOMAIN} {
+    encode zstd gzip
+    reverse_proxy nexus:8765
+}

@@ -1,0 +1,10 @@
+.git
+.env
+__pycache__
+*.py[cod]
+gui_recent.json
+*.tmp
+*.log
+test_*.py
+workspaces
+data
